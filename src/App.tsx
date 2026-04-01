@@ -100,7 +100,7 @@ const Navbar = ({ activePage, setActivePage }: { activePage: string, setActivePa
 };
 
 const Hero = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void, onOpenWorks: () => void }) => {
-  const [heroImage, setHeroImage] = useState<string>("https://picsum.photos/seed/muhan-hero/1000/1250");
+  const [heroImage, setHeroImage] = useState<string>("https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop");
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -216,7 +216,7 @@ const LifeSection = () => {
           {/* Large Image Card */}
           <div className="md:col-span-8 md:row-span-2 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg">
             <img 
-              src="https://picsum.photos/seed/muhan-life1/1200/800" 
+              src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1200&auto=format&fit=crop" 
               alt="Life Moment 1" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
@@ -231,7 +231,7 @@ const LifeSection = () => {
           {/* Medium Image Card 1 */}
           <div className="md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg bg-orange-50">
             <img 
-              src="https://picsum.photos/seed/muhan-life2/600/400" 
+              src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop" 
               alt="Life Moment 2" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
@@ -246,7 +246,7 @@ const LifeSection = () => {
           {/* Medium Image Card 2 */}
           <div className="md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg bg-rose-50">
              <img 
-              src="https://picsum.photos/seed/muhan-life3/600/400" 
+              src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop" 
               alt="Life Moment 3" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
@@ -276,7 +276,7 @@ const LifeSection = () => {
            {/* Long Image Card */}
            <div className="md:col-span-8 md:row-span-1 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg">
              <img 
-              src="https://picsum.photos/seed/muhan-life4/1200/400" 
+              src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200&auto=format&fit=crop" 
               alt="Life Moment 4" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
@@ -458,7 +458,7 @@ const Workspace = () => {
           <div className="relative">
             <div className="aspect-[4/5] neo-border border-white bg-gray-800 rounded-[3rem] overflow-hidden shadow-2xl">
               <img 
-                src="https://picsum.photos/seed/muhan-workspace/1000/1250" 
+                src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000&auto=format&fit=crop" 
                 alt="Workspace Setup" 
                 className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000"
                 referrerPolicy="no-referrer"

@@ -3,25 +3,25 @@ import { Project, WorkspaceItem, Experience } from './types';
 export const PROJECTS: Project[] = [
   {
     id: '1',
-    title: 'Vibe 视频广告',
-    description: '一个基于 AI 的视频生成平台，使用 Gemini 和 Veo 模型创建令人惊叹的 8 秒视频广告。',
-    tags: ['React', 'Gemini API', 'Veo', 'Tailwind'],
-    image: 'https://picsum.photos/seed/vibe/800/600',
+    title: "EcoSmart Dashboard",
+    description: "为大型制造企业设计的环境监测仪表板，实时可视化碳排放和能源使用情况。基于 React 和 D3.js。",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
+    tags: ["React", "TypeScript", "D3.js", "Tailwind"]
   },
   {
     id: '2',
-    title: '生物皮肤科学',
-    description: '一个基于研究的护肤平台，专注于微生物组和谐与自然平衡恢复。',
-    tags: ['Next.js', 'Framer Motion', 'UI/UX'],
-    image: 'https://picsum.photos/seed/bio/800/600',
+    title: "Nexus Finance App",
+    description: "下一代去中心化金融应用的移动端网页版，提供流畅的资产管理和交易体验。整合了 Web3.js。",
+    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1200&auto=format&fit=crop",
+    tags: ["Next.js", "Web3", "Framer Motion"]
   },
   {
     id: '3',
-    title: 'Frello CRM',
-    description: '通过这个精简的 CRM 仪表板，轻松管理您的团队和业务运营。',
-    tags: ['TypeScript', 'Node.js', 'PostgreSQL'],
-    image: 'https://picsum.photos/seed/crm/800/600',
-  },
+    title: "Aura Creative Suite",
+    description: "专为设计师打造的云端协作工具，支持多人实时编辑和版本控制。使用了 CRDT 算法和 WebSocket。",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1200&auto=format&fit=crop",
+    tags: ["Vue", "Node.js", "WebSocket", "PostgreSQL"]
+  }
 ];
 
 export const WORKSPACE: WorkspaceItem[] = [
