@@ -67,6 +67,7 @@ const Navbar = ({ activePage, setActivePage }: { activePage: string, setActivePa
   const navItems = [
     { name: '首页', id: 'home' },
     { name: '关于我', id: 'about' },
+    { name: 'AI实践', id: 'ai' },
     { name: '我的作品', id: 'works' },
     { name: '工作区', id: 'workspace' },
   ];
@@ -303,6 +304,191 @@ const LifeSection = () => {
   );
 };
 
+const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void, onOpenWorks: () => void }) => {
+  const promptTemplates = [
+    {
+      id: "t1",
+      title: "内容摘要（结构化）",
+      content: "请把下面内容总结成：1) 一句话结论 2) 三条要点 3) 可执行的下一步建议。内容：{{TEXT}}",
+    },
+    {
+      id: "t2",
+      title: "短视频脚本（生活方式）",
+      content: "你是短视频编导。请基于主题生成 30 秒脚本：分镜、旁白、字幕、BGM建议、结尾 CTA。主题：{{TOPIC}}",
+    },
+    {
+      id: "t3",
+      title: "产品需求拆解（PRD）",
+      content: "请把需求拆解为：目标、用户画像、使用流程、功能列表、边界与异常、指标、风险。需求：{{REQ}}",
+    },
+  ];
+
+  const [activeTab, setActiveTab] = useState<"demos" | "prompts" | "playground">("demos");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [playgroundInput, setPlaygroundInput] = useState("");
+  const [playgroundOutput, setPlaygroundOutput] = useState("");
+
+  const copyText = async (id: string, text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedId(id);
+      window.setTimeout(() => setCopiedId(null), 1200);
+    } catch {
+      setCopiedId(null);
+    }
+  };
+
+  const runPlayground = () => {
+    const topic = playgroundInput.trim() || "（未填写主题）";
+    setPlaygroundOutput(
+      [
+        "【AI 实践演示（本地模拟，不调用线上模型）】",
+        `主题：${topic}`,
+        "",
+        "1) 核心观点：围绕“有用 + 好看”，用清晰结构把内容讲透。",
+        "2) 三个要点：",
+        "   - 先给结论，再给依据；信息密度要高但读起来轻松。",
+        "   - 用例驱动：给 1 个真实场景 + 1 个可执行步骤。",
+        "   - 体验一致：标题、段落、按钮与视觉节奏统一。",
+        "",
+        "3) 下一步建议：把你的目标用户、使用场景、期望输出补充完整，我可以把模板升级成可直接复用的工作流。",
+      ].join("\n")
+    );
+  };
+
+  return (
+    <section id="ai" className="py-32 bg-light relative overflow-hidden">
+      <div className="absolute top-24 -left-40 w-[520px] h-[520px] bg-brand/10 rounded-full blur-[80px]"></div>
+      <div className="absolute bottom-10 -right-40 w-[520px] h-[520px] bg-brand-light/10 rounded-full blur-[80px]"></div>
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-10 mb-16">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white neo-border text-brand font-black text-sm mb-6">
+              AI 实践
+            </div>
+            <h2 className="text-6xl md:text-7xl font-black leading-none mb-6">
+              把想法变成可复用的<span className="text-brand">工作流</span>
+            </h2>
+            <p className="text-xl text-gray-500 leading-relaxed font-medium">
+              这里汇总我的 AI 实践：从提示词结构、内容生产到工具化落地。目标不是“炫技”，而是让产出更稳定、更可控、更有品味。
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-4">
+            <button onClick={onOpenWorks} className="neo-button bg-white flex items-center gap-3">
+              <ArrowRight size={18} /> 去看作品
+            </button>
+            <button onClick={onOpenContact} className="neo-button bg-brand text-white flex items-center gap-3">
+              <Send size={18} /> 一起合作
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-3 mb-10">
+          <button
+            onClick={() => setActiveTab("demos")}
+            className={`px-5 py-3 rounded-full font-black transition-all ${activeTab === "demos" ? "bg-dark text-white neo-border" : "bg-white neo-border hover:bg-light"}`}
+          >
+            实践案例
+          </button>
+          <button
+            onClick={() => setActiveTab("prompts")}
+            className={`px-5 py-3 rounded-full font-black transition-all ${activeTab === "prompts" ? "bg-dark text-white neo-border" : "bg-white neo-border hover:bg-light"}`}
+          >
+            提示词库
+          </button>
+          <button
+            onClick={() => setActiveTab("playground")}
+            className={`px-5 py-3 rounded-full font-black transition-all ${activeTab === "playground" ? "bg-dark text-white neo-border" : "bg-white neo-border hover:bg-light"}`}
+          >
+            Playground
+          </button>
+        </div>
+
+        {activeTab === "demos" && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { title: "内容生产流水线", desc: "从选题→大纲→成稿→润色→分发，强调一致的语气与结构。", tag: "内容" },
+              { title: "知识整理与复盘", desc: "把碎片输入变成卡片、清单与行动项，便于长期迭代。", tag: "效率" },
+              { title: "产品需求与方案", desc: "把模糊需求变成 PRD 结构，再生成可交付的方案与验收标准。", tag: "产品" },
+            ].map((x) => (
+              <div key={x.title} className="neo-card rounded-3xl">
+                <div className="flex items-center justify-between mb-6">
+                  <span className="px-3 py-1 rounded-full bg-brand/10 text-brand font-black text-xs uppercase tracking-wider">{x.tag}</span>
+                  <Code size={18} className="text-brand" />
+                </div>
+                <p className="text-2xl font-black mb-3">{x.title}</p>
+                <p className="text-gray-600 leading-relaxed text-lg">{x.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "prompts" && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {promptTemplates.map((t) => (
+              <div key={t.id} className="neo-card rounded-3xl">
+                <div className="flex items-start justify-between gap-6 mb-4">
+                  <div>
+                    <p className="text-2xl font-black">{t.title}</p>
+                    <p className="text-gray-500 font-medium mt-2">可直接复制使用，把占位符替换成你的内容。</p>
+                  </div>
+                  <button
+                    onClick={() => copyText(t.id, t.content)}
+                    className={`px-5 py-3 rounded-full font-black transition-all ${copiedId === t.id ? "bg-dark text-white" : "bg-white neo-border hover:bg-light"}`}
+                  >
+                    {copiedId === t.id ? "已复制" : "复制"}
+                  </button>
+                </div>
+                <pre className="whitespace-pre-wrap text-sm bg-light neo-border rounded-2xl p-5 font-mono text-dark/80 leading-relaxed">
+                  {t.content}
+                </pre>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "playground" && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div className="neo-card rounded-3xl">
+              <p className="text-2xl font-black mb-4">输入</p>
+              <p className="text-gray-500 font-medium mb-6">这里用于演示结构化输出的模板效果（本地模拟，不依赖 API）。</p>
+              <textarea
+                value={playgroundInput}
+                onChange={(e) => setPlaygroundInput(e.target.value)}
+                className="w-full min-h-[220px] p-5 neo-border rounded-2xl outline-none focus:ring-2 ring-brand bg-white font-mono"
+                placeholder="输入一个主题，比如：如何把个人网站做得更专业？"
+              />
+              <div className="mt-6 flex gap-4">
+                <button onClick={runPlayground} className="neo-button bg-brand text-white flex items-center gap-3">
+                  <ArrowRight size={18} /> 生成示例
+                </button>
+                <button onClick={() => setPlaygroundInput("")} className="neo-button bg-white">
+                  清空
+                </button>
+              </div>
+            </div>
+            <div className="neo-card rounded-3xl">
+              <p className="text-2xl font-black mb-4">输出</p>
+              <pre className="whitespace-pre-wrap text-sm bg-light neo-border rounded-2xl p-5 font-mono text-dark/80 leading-relaxed min-h-[320px]">
+                {playgroundOutput || "点击“生成示例”后，这里会出现结构化输出。"}
+              </pre>
+              <div className="mt-6">
+                <button
+                  onClick={() => copyText("out", playgroundOutput)}
+                  className="neo-button bg-white flex items-center gap-3"
+                  disabled={!playgroundOutput}
+                >
+                  <FileText size={18} /> 复制输出
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
 const About = ({ onOpenResume }: { onOpenResume: () => void }) => {
   return (
     <section id="about" className="py-32 bg-light border-y-2 border-dark relative overflow-hidden">
@@ -523,6 +709,7 @@ const Footer = ({ setActivePage }: { setActivePage: (page: string) => void }) =>
   const links = [
     { name: '首页', id: 'home' },
     { name: '关于我', id: 'about' },
+    { name: 'AI实践', id: 'ai' },
     { name: '我的作品', id: 'works' },
     { name: '工作区', id: 'workspace' },
   ];
@@ -749,6 +936,7 @@ export default function App() {
               </>
             )}
             {activePage === 'about' && <About onOpenResume={openResume} />}
+            {activePage === 'ai' && <AIPractice onOpenContact={openContact} onOpenWorks={() => setActivePage('works')} />}
             {activePage === 'works' && <Works onOpenProject={openProject} onOpenAllProjects={openAllProjects} />}
             {activePage === 'workspace' && <Workspace />}
           </motion.div>
