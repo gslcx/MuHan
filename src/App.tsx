@@ -5,6 +5,7 @@ import {
   Twitter, 
   Linkedin, 
   Mail, 
+  Menu,
   ExternalLink, 
   ArrowRight, 
   User,
@@ -57,6 +58,7 @@ const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean, onClose:
 
 const Navbar = ({ activePage, setActivePage }: { activePage: string, setActivePage: (page: string) => void }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -84,7 +86,7 @@ const Navbar = ({ activePage, setActivePage }: { activePage: string, setActivePa
               <button 
                 key={item.name} 
                 onClick={() => setActivePage(item.id)} 
-                className={`font-bold text-lg transition-all hover:scale-105 ${activePage === item.id ? 'text-brand' : 'hover:text-brand'}`}
+                className={`font-bold text-lg transition-all hover:scale-105 px-4 py-2 rounded-full ${activePage === item.id ? 'text-brand bg-brand/10' : 'hover:text-brand hover:bg-brand/5'}`}
               >
                 {item.name}
               </button>
@@ -94,9 +96,71 @@ const Navbar = ({ activePage, setActivePage }: { activePage: string, setActivePa
             <a href="mailto:hello@muhan.com" className="hidden sm:flex w-10 h-10 neo-border bg-white items-center justify-center hover:bg-brand hover:text-white transition-all">
               <Mail size={18} />
             </a>
+            <button
+              onClick={() => setMobileOpen((v) => !v)}
+              className="md:hidden w-10 h-10 neo-border bg-white flex items-center justify-center hover:bg-brand hover:text-white transition-all"
+              aria-label="Open menu"
+            >
+              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
         </div>
       </div>
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="md:hidden fixed inset-0 z-50"
+          >
+            <div
+              className="absolute inset-0 bg-dark/50"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.div
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="absolute top-6 left-6 right-6 bg-white neo-border rounded-3xl p-6"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-2xl font-display font-black tracking-tight">导航</p>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="w-10 h-10 neo-border bg-white flex items-center justify-center hover:bg-brand hover:text-white transition-all"
+                  aria-label="Close menu"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              <div className="grid grid-cols-1 gap-3">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActivePage(item.id);
+                      setMobileOpen(false);
+                    }}
+                    className={`w-full text-left px-5 py-4 rounded-2xl neo-border font-black text-lg transition-all ${activePage === item.id ? 'bg-brand text-white' : 'bg-white hover:bg-light'}`}
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-6 flex gap-4">
+                <a
+                  href="mailto:hello@muhan.com"
+                  className="flex-1 neo-button bg-white flex items-center justify-center gap-2"
+                >
+                  <Mail size={18} /> 发邮件
+                </a>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
@@ -209,6 +273,7 @@ const Hero = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void, onOpe
           </motion.div>
         </div>
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-light to-transparent pointer-events-none"></div>
     </section>
   );
 };
@@ -216,6 +281,7 @@ const Hero = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void, onOpe
 const LifeSection = () => {
   return (
     <section className="py-32 bg-white text-black relative overflow-hidden">
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[260px] bg-light rounded-[80px] blur-3xl opacity-70"></div>
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-20">
           <h2 className="text-5xl md:text-7xl font-black mb-6 tracking-tight">生活与<span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-rose-500">灵感</span></h2>
@@ -224,7 +290,7 @@ const LifeSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 auto-rows-[300px]">
           {/* Large Image Card */}
-          <div className="md:col-span-8 md:row-span-2 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg">
+          <div className="md:col-span-8 md:row-span-2 group relative overflow-hidden rounded-3xl neo-border shadow-lg">
             <img 
               src={IMAGES.life1} 
               alt="Life Moment 1" 
@@ -239,7 +305,7 @@ const LifeSection = () => {
           </div>
 
           {/* Medium Image Card 1 */}
-          <div className="md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg bg-orange-50">
+          <div className="md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-3xl neo-border shadow-lg bg-orange-50">
             <img 
               src={IMAGES.life2} 
               alt="Life Moment 2" 
@@ -254,7 +320,7 @@ const LifeSection = () => {
           </div>
 
           {/* Medium Image Card 2 */}
-          <div className="md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg bg-rose-50">
+          <div className="md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-3xl neo-border shadow-lg bg-rose-50">
              <img 
               src={IMAGES.life3} 
               alt="Life Moment 3" 
@@ -269,7 +335,7 @@ const LifeSection = () => {
           </div>
 
           {/* Quote Card */}
-          <div className="md:col-span-4 md:row-span-1 bg-gray-50 rounded-[2rem] neo-border shadow-lg p-8 flex flex-col justify-center relative overflow-hidden">
+          <div className="md:col-span-4 md:row-span-1 bg-gray-50 rounded-3xl neo-border shadow-lg p-8 flex flex-col justify-center relative overflow-hidden">
              <div className="absolute -top-4 -right-4 text-9xl text-gray-200 font-serif leading-none opacity-50">"</div>
              <p className="text-xl font-medium text-gray-700 leading-relaxed relative z-10 italic">
                "设计不仅仅是外观和感觉。设计是它的工作原理。在生活中也是如此，体验比表象更重要。"
@@ -284,7 +350,7 @@ const LifeSection = () => {
           </div>
            
            {/* Long Image Card */}
-           <div className="md:col-span-8 md:row-span-1 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg">
+           <div className="md:col-span-8 md:row-span-1 group relative overflow-hidden rounded-3xl neo-border shadow-lg">
              <img 
               src={IMAGES.life4} 
               alt="Life Moment 4" 
@@ -325,6 +391,7 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
 
   const [activeTab, setActiveTab] = useState<"demos" | "prompts" | "playground">("demos");
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
   const [playgroundInput, setPlaygroundInput] = useState("");
   const [playgroundOutput, setPlaygroundOutput] = useState("");
 
@@ -332,9 +399,13 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
     try {
       await navigator.clipboard.writeText(text);
       setCopiedId(id);
+      setToast("已复制到剪贴板");
       window.setTimeout(() => setCopiedId(null), 1200);
+      window.setTimeout(() => setToast(null), 1600);
     } catch {
       setCopiedId(null);
+      setToast("复制失败");
+      window.setTimeout(() => setToast(null), 1600);
     }
   };
 
@@ -383,22 +454,22 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-3 mb-10">
+        <div className="bg-white neo-border rounded-3xl p-3 inline-flex flex-wrap gap-2 mb-10">
           <button
             onClick={() => setActiveTab("demos")}
-            className={`px-5 py-3 rounded-full font-black transition-all ${activeTab === "demos" ? "bg-dark text-white neo-border" : "bg-white neo-border hover:bg-light"}`}
+            className={`px-5 py-3 rounded-2xl font-black transition-all ${activeTab === "demos" ? "bg-dark text-white" : "hover:bg-light"}`}
           >
             实践案例
           </button>
           <button
             onClick={() => setActiveTab("prompts")}
-            className={`px-5 py-3 rounded-full font-black transition-all ${activeTab === "prompts" ? "bg-dark text-white neo-border" : "bg-white neo-border hover:bg-light"}`}
+            className={`px-5 py-3 rounded-2xl font-black transition-all ${activeTab === "prompts" ? "bg-dark text-white" : "hover:bg-light"}`}
           >
             提示词库
           </button>
           <button
             onClick={() => setActiveTab("playground")}
-            className={`px-5 py-3 rounded-full font-black transition-all ${activeTab === "playground" ? "bg-dark text-white neo-border" : "bg-white neo-border hover:bg-light"}`}
+            className={`px-5 py-3 rounded-2xl font-black transition-all ${activeTab === "playground" ? "bg-dark text-white" : "hover:bg-light"}`}
           >
             Playground
           </button>
@@ -475,7 +546,7 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
               <div className="mt-6">
                 <button
                   onClick={() => copyText("out", playgroundOutput)}
-                  className="neo-button bg-white flex items-center gap-3"
+                  className={`neo-button bg-white flex items-center gap-3 ${!playgroundOutput ? 'opacity-50 pointer-events-none' : ''}`}
                   disabled={!playgroundOutput}
                 >
                   <FileText size={18} /> 复制输出
@@ -484,6 +555,19 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
             </div>
           </div>
         )}
+        <AnimatePresence>
+          {toast && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="fixed bottom-6 right-6 z-[200] bg-dark text-white neo-border rounded-2xl px-5 py-3 font-black"
+            >
+              {toast}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
@@ -492,6 +576,8 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
 const About = ({ onOpenResume }: { onOpenResume: () => void }) => {
   return (
     <section id="about" className="py-32 bg-light border-y-2 border-dark relative overflow-hidden">
+      <div className="absolute top-24 -left-40 w-[520px] h-[520px] bg-brand/10 rounded-full blur-[80px]"></div>
+      <div className="absolute bottom-10 -right-40 w-[520px] h-[520px] bg-brand-light/10 rounded-full blur-[80px]"></div>
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row gap-24">
           <div className="md:w-1/3">
