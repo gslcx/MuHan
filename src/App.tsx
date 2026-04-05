@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { PROJECTS, WORKSPACE, EXPERIENCES } from './constants';
 import { Project } from './types';
+import { IMAGES } from './images';
 
 const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean, onClose: () => void, title: string, children: React.ReactNode }) => {
   return (
@@ -100,7 +101,7 @@ const Navbar = ({ activePage, setActivePage }: { activePage: string, setActivePa
 };
 
 const Hero = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void, onOpenWorks: () => void }) => {
-  const [heroImage, setHeroImage] = useState<string>("https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1000&auto=format&fit=crop");
+  const [heroImage, setHeroImage] = useState<string>(IMAGES.hero);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -194,7 +195,15 @@ const Hero = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void, onOpe
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="absolute -bottom-8 -right-8 bg-gray-900 border border-cyan-500/40 p-4 shadow-[0_0_20px_rgba(6,182,212,0.2)] backdrop-blur-md z-30">
-            
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-cyan-500/20 flex items-center justify-center border border-cyan-500/50">
+                  <Code className="text-cyan-400" size={20} />
+                </div>
+                <div>
+                  <p className="font-mono text-xs text-cyan-400/60 uppercase tracking-widest mb-1">当前坐标</p>
+                  <p className="font-black text-lg text-white leading-none tracking-wider">湖南, CN</p>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
         </div>
@@ -216,7 +225,7 @@ const LifeSection = () => {
           {/* Large Image Card */}
           <div className="md:col-span-8 md:row-span-2 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg">
             <img 
-              src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=1200&auto=format&fit=crop" 
+              src={IMAGES.life1} 
               alt="Life Moment 1" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
@@ -231,7 +240,7 @@ const LifeSection = () => {
           {/* Medium Image Card 1 */}
           <div className="md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg bg-orange-50">
             <img 
-              src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=600&auto=format&fit=crop" 
+              src={IMAGES.life2} 
               alt="Life Moment 2" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
@@ -246,7 +255,7 @@ const LifeSection = () => {
           {/* Medium Image Card 2 */}
           <div className="md:col-span-4 md:row-span-1 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg bg-rose-50">
              <img 
-              src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop" 
+              src={IMAGES.life3} 
               alt="Life Moment 3" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
@@ -276,7 +285,7 @@ const LifeSection = () => {
            {/* Long Image Card */}
            <div className="md:col-span-8 md:row-span-1 group relative overflow-hidden rounded-[2rem] neo-border shadow-lg">
              <img 
-              src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=1200&auto=format&fit=crop" 
+              src={IMAGES.life4} 
               alt="Life Moment 4" 
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               referrerPolicy="no-referrer"
@@ -296,7 +305,7 @@ const LifeSection = () => {
 
 const About = ({ onOpenResume }: { onOpenResume: () => void }) => {
   return (
-    <section id="about" className="py-32 bg-white border-y-2 border-dark relative overflow-hidden">
+    <section id="about" className="py-32 bg-light border-y-2 border-dark relative overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row gap-24">
           <div className="md:w-1/3">
@@ -327,6 +336,27 @@ const About = ({ onOpenResume }: { onOpenResume: () => void }) => {
                   </span>
                   我的故事
                 </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="neo-card rounded-3xl">
+                    <p className="font-black text-xl mb-3">我是谁</p>
+                    <p className="text-gray-600 leading-relaxed text-lg">
+                      我喜欢把复杂问题拆解成清晰结构，用设计思维把体验打磨得更顺滑，再用 AI 把效率和内容丰富度拉满。
+                    </p>
+                  </div>
+                  <div className="neo-card rounded-3xl">
+                    <p className="font-black text-xl mb-3">我在乎什么</p>
+                    <p className="text-gray-600 leading-relaxed text-lg">
+                      有用、好看、可靠。一个作品应该能解决真实问题，同时让人愿意反复使用并且感到愉悦。
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-10 flex flex-wrap gap-3">
+                  {['AI', '产品体验', '交互细节', '性能', '可维护性', '内容创作'].map((t) => (
+                    <span key={t} className="px-4 py-2 bg-white neo-border rounded-full font-black text-sm">
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               <div>
@@ -341,7 +371,7 @@ const About = ({ onOpenResume }: { onOpenResume: () => void }) => {
                     <motion.div 
                       key={exp.id} 
                       whileHover={{ x: 10 }}
-                      className="neo-card group relative overflow-hidden"
+                      className="neo-card group relative overflow-hidden rounded-3xl"
                     >
                       <div className="absolute top-0 right-0 w-32 h-32 bg-brand/5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-500"></div>
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
@@ -369,13 +399,20 @@ const About = ({ onOpenResume }: { onOpenResume: () => void }) => {
 
 const Works = ({ onOpenProject, onOpenAllProjects }: { onOpenProject: (p: Project) => void, onOpenAllProjects: () => void }) => {
   return (
-    <section id="works" className="py-32 bg-light">
-      <div className="container mx-auto px-6">
+    <section id="works" className="py-32 bg-white relative overflow-hidden">
+      <div className="absolute top-24 -left-40 w-[520px] h-[520px] bg-brand/10 rounded-full blur-[80px]"></div>
+      <div className="absolute bottom-10 -right-40 w-[520px] h-[520px] bg-brand-light/10 rounded-full blur-[80px]"></div>
+      <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
           <div>
-            <h2 className="text-6xl md:text-7xl mb-6 font-black leading-none">精选 <span className="text-brand">作品</span></h2>
-            <p className="text-xl text-gray-400 max-w-xl font-medium">
-              探索我最近的一些项目，这些项目展示了我在复杂系统设计、高性能前端开发以及 AI 集成方面的专业能力。
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand/10 text-brand font-black text-sm neo-border mb-8">
+              精选作品集
+            </div>
+            <h2 className="text-6xl md:text-7xl mb-6 font-black leading-none">
+              把复杂做简单，把细节做<span className="text-brand">极致</span>
+            </h2>
+            <p className="text-xl text-gray-500 max-w-2xl font-medium leading-relaxed">
+              这里展示我最近的一些项目：从 UI 细节、交互动效到工程质量与性能优化，都尽量做到“好看、好用、可维护”。
             </p>
           </div>
           <button onClick={onOpenAllProjects} className="neo-button flex items-center gap-3 group">
@@ -388,16 +425,16 @@ const Works = ({ onOpenProject, onOpenAllProjects }: { onOpenProject: (p: Projec
             <motion.div 
               key={project.id}
               whileHover={{ y: -15 }}
-              className="neo-card group flex flex-col h-full"
+              className="neo-card group flex flex-col h-full rounded-3xl"
             >
-              <div className="aspect-[16/10] mb-8 overflow-hidden neo-border bg-gray-100 rounded-2xl relative">
+              <div className="aspect-[16/10] mb-8 overflow-hidden neo-border bg-gray-100 rounded-3xl relative">
                 <img 
                   src={project.image} 
                   alt={project.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-dark/0 group-hover:bg-dark/20 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-dark/40 via-dark/0 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
               </div>
               <div className="flex flex-wrap gap-2 mb-6">
                 {project.tags.map(tag => (
@@ -426,10 +463,15 @@ const Works = ({ onOpenProject, onOpenAllProjects }: { onOpenProject: (p: Projec
 const Workspace = () => {
   return (
     <section id="workspace" className="py-32 bg-dark text-white relative overflow-hidden">
+      <div className="absolute -top-40 -left-40 w-[560px] h-[560px] bg-brand/20 rounded-full blur-[100px]"></div>
+      <div className="absolute -bottom-40 -right-40 w-[560px] h-[560px] bg-brand-light/20 rounded-full blur-[100px]"></div>
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <div>
-            <h2 className="text-6xl md:text-7xl mb-10 font-black leading-none">我的 <span className="text-brand">工作区</span></h2>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-brand font-black text-sm mb-8">
+              我的工作区
+            </div>
+            <h2 className="text-6xl md:text-7xl mb-10 font-black leading-none">我的 <span className="text-brand">工具箱</span></h2>
             <p className="text-2xl text-gray-400 mb-16 leading-relaxed font-medium">
               工欲善其事，必先利其器。我精心挑选了每一件设备和软件，以确保在创作过程中能够获得最极致的效率和灵感。
             </p>
@@ -443,10 +485,10 @@ const Workspace = () => {
                       <motion.div 
                         key={item.id} 
                         whileHover={{ scale: 1.02 }}
-                        className="p-6 border border-white/10 rounded-2xl hover:bg-white/5 transition-all group"
+                        className="p-6 rounded-3xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all group backdrop-blur-sm"
                       >
                         <p className="font-black text-xl mb-2 group-hover:text-brand transition-colors">{item.name}</p>
-                        <p className="text-gray-500 leading-relaxed">{item.description}</p>
+                        <p className="text-gray-300/70 leading-relaxed">{item.description}</p>
                       </motion.div>
                     ))}
                   </div>
@@ -456,13 +498,14 @@ const Workspace = () => {
           </div>
           
           <div className="relative">
-            <div className="aspect-[4/5] neo-border border-white bg-gray-800 rounded-[3rem] overflow-hidden shadow-2xl">
+            <div className="aspect-[4/5] neo-border border-white/80 bg-gray-900 rounded-[3rem] overflow-hidden shadow-2xl relative">
               <img 
-                src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1000&auto=format&fit=crop" 
+                src={IMAGES.workspace} 
                 alt="Workspace Setup" 
-                className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-1000"
+                className="w-full h-full object-cover opacity-90 transition-all duration-700"
                 referrerPolicy="no-referrer"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/0 to-transparent"></div>
             </div>
           </div>
         </div>
@@ -476,28 +519,53 @@ const Workspace = () => {
   );
 };
 
-const Footer = () => {
+const Footer = ({ setActivePage }: { setActivePage: (page: string) => void }) => {
+  const links = [
+    { name: '首页', id: 'home' },
+    { name: '关于我', id: 'about' },
+    { name: '我的作品', id: 'works' },
+    { name: '工作区', id: 'workspace' },
+  ];
+
   return (
-    <footer className="py-20 bg-white border-t-2 border-dark">
+    <footer className="py-20 bg-dark text-white border-t-2 border-dark">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-12">
-          <div className="flex flex-wrap justify-center gap-10">
-            {[
-              { name: '案例' },
-              { name: '案例' }
-            ].map((item, index) => (
-              <a key={index} href="#works" className="flex items-center gap-2 text-lg font-black hover:text-brand transition-all hover:-translate-y-1">
-                {item.name}
-              </a>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+          <div className="space-y-4">
+            <p className="text-3xl font-display font-black tracking-tight">MUHAN</p>
+            <p className="text-gray-300/70 leading-relaxed">
+              用 AI 与设计把“有用”和“好看”做成同一个答案。
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-4 md:justify-center">
+            {links.map((l) => (
+              <button
+                key={l.id}
+                onClick={() => setActivePage(l.id)}
+                className="px-5 py-3 border border-white/15 rounded-full hover:border-white/30 hover:bg-white/5 transition-all font-black"
+              >
+                {l.name}
+              </button>
             ))}
           </div>
-          
-          <button 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="w-16 h-16 neo-border bg-white flex items-center justify-center hover:bg-brand hover:text-white transition-all hover:scale-110"
-          >
-            <ArrowRight size={24} className="-rotate-90" />
-          </button>
+          <div className="flex md:justify-end items-center gap-4">
+            <a href="#" className="w-12 h-12 border border-white/15 rounded-full flex items-center justify-center hover:bg-white/5 transition-all">
+              <Dribbble size={18} />
+            </a>
+            <a href="#" className="w-12 h-12 border border-white/15 rounded-full flex items-center justify-center hover:bg-white/5 transition-all">
+              <Instagram size={18} />
+            </a>
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="w-12 h-12 border border-white/15 rounded-full flex items-center justify-center hover:bg-brand hover:text-white transition-all"
+            >
+              <ArrowRight size={18} className="-rotate-90" />
+            </button>
+          </div>
+        </div>
+        <div className="mt-12 pt-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-300/60">
+          <p>© {new Date().getFullYear()} MUHAN. All rights reserved.</p>
+          <p>muhan.org.cn</p>
         </div>
       </div>
     </footer>
@@ -663,20 +731,30 @@ export default function App() {
     <div className="relative selection:bg-brand selection:text-white">
       <Navbar activePage={activePage} setActivePage={setActivePage} />
       <main className="pt-20">
-        {activePage === 'home' && (
-          <>
-            <Hero 
-              onOpenContact={openContact} 
-              onOpenWorks={() => setActivePage('works')} 
-            />
-            <LifeSection />
-          </>
-        )}
-        {activePage === 'about' && <About onOpenResume={openResume} />}
-        {activePage === 'works' && <Works onOpenProject={openProject} onOpenAllProjects={openAllProjects} />}
-        {activePage === 'workspace' && <Workspace />}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activePage}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+          >
+            {activePage === 'home' && (
+              <>
+                <Hero 
+                  onOpenContact={openContact} 
+                  onOpenWorks={() => setActivePage('works')} 
+                />
+                <LifeSection />
+              </>
+            )}
+            {activePage === 'about' && <About onOpenResume={openResume} />}
+            {activePage === 'works' && <Works onOpenProject={openProject} onOpenAllProjects={openAllProjects} />}
+            {activePage === 'workspace' && <Workspace />}
+          </motion.div>
+        </AnimatePresence>
       </main>
-      <Footer />
+      <Footer setActivePage={setActivePage} />
       
       <Modal 
         isOpen={!!modalContent} 
