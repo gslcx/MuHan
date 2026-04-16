@@ -46,8 +46,8 @@ const poster = (opts: {
 
 export const IMAGES = {
   hero: poster({
-    title: "欢迎光临",
-    subtitle: "把有用与美感做到一起",
+    title: "慕寒AI",
+    subtitle: "专注落地与赋能",
     from: "#0b1020",
     to: "#0f172a",
     accent: "#22d3ee",
@@ -109,4 +109,3 @@ export const IMAGES = {
     accent: "#3b82f6",
   }),
 };
-

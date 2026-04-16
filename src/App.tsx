@@ -69,7 +69,7 @@ const Navbar = ({ activePage, setActivePage }: { activePage: string, setActivePa
   const navItems = [
     { name: '首页', id: 'home' },
     { name: '关于我', id: 'about' },
-    { name: 'AI实践', id: 'ai' },
+    { name: 'AI实践案例展示', id: 'ai' },
     { name: '我的作品', id: 'works' },
     { name: '工作区', id: 'workspace' },
   ];
@@ -79,7 +79,7 @@ const Navbar = ({ activePage, setActivePage }: { activePage: string, setActivePa
       <div className="container mx-auto px-6">
         <div className={`relative flex items-center bg-white/80 backdrop-blur-md neo-border px-8 py-4 transition-all ${scrolled ? 'rounded-full' : 'rounded-2xl'}`}>
           <button onClick={() => setActivePage('home')} className="text-3xl font-display font-black tracking-tighter hover:text-brand transition-colors">
-            MUHAN
+            MUHAN AI
           </button>
           <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-10">
             {navItems.map((item) => (
@@ -166,16 +166,6 @@ const Navbar = ({ activePage, setActivePage }: { activePage: string, setActivePa
 };
 
 const Hero = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void, onOpenWorks: () => void }) => {
-  const [heroImage, setHeroImage] = useState<string>(IMAGES.hero);
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setHeroImage(url);
-    }
-  };
-
   return (
     <section id="home" className="min-h-screen flex items-center pt-20 relative overflow-hidden bg-black text-white">
       {/* Cyberpunk Grid Background */}
@@ -194,19 +184,11 @@ const Hero = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void, onOpe
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex flex-col items-start"
           >
-            <div className="inline-flex items-center gap-2 bg-cyan-950/50 text-cyan-400 px-5 py-2 rounded-sm border border-cyan-500/30 mb-8 font-mono text-sm uppercase tracking-widest backdrop-blur-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full bg-cyan-400 opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 bg-cyan-500"></span>
-              </span>
-              SYSTEM ONLINE // AI CREATOR
-            </div>
             <h1 className="text-6xl md:text-8xl lg:text-9xl mb-8 leading-[0.9] tracking-tighter font-black uppercase drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]">
-              欢迎光临<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600">我的世界</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500">欢迎光临慕寒AI应用</span>
             </h1>
             <p className="text-xl md:text-2xl text-cyan-100/70 mb-12 max-w-xl leading-relaxed font-light font-mono">
-              &gt; 我致力于用 AI 做出更多有用且丰富的作品和内容。<span className="animate-pulse">_</span>
+              我们致力于用AI赋能更多生活与工作场景，提高工作和生活效率
             </p>
             <div className="flex flex-wrap gap-6">
               <button onClick={onOpenWorks} className="group relative px-8 py-4 bg-cyan-500 text-black font-black uppercase tracking-wider text-lg overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(6,182,212,0.6)]">
@@ -235,23 +217,17 @@ const Hero = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void, onOpe
               
               <div className="w-full h-full relative overflow-hidden bg-black">
                 <img 
-                  src={heroImage} 
-                  alt="Portrait" 
+                  src={IMAGES.hero} 
+                  alt="慕寒AI" 
                   className="w-full h-full object-cover transition-all duration-700 scale-105 group-hover:scale-100"
                   referrerPolicy="no-referrer"
                 />
                 {/* Scanline effect */}
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-50"></div>
-                
-                <label className="absolute inset-0 bg-cyan-950/80 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 cursor-pointer text-cyan-400 backdrop-blur-sm z-30">
-                  <span className="text-xl font-black uppercase tracking-widest border border-cyan-400 px-6 py-3 hover:bg-cyan-400 hover:text-black transition-colors">上传视觉数据</span>
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    className="hidden" 
-                    onChange={handleImageUpload}
-                  />
-                </label>
+                <div className="absolute inset-x-6 bottom-6 z-30 rounded-3xl bg-black/55 border border-cyan-400/30 backdrop-blur-md px-6 py-5">
+                  <p className="text-3xl font-black text-white">慕寒AI</p>
+                  <p className="text-cyan-200/80 mt-2 text-base md:text-lg">专注落地与赋能</p>
+                </div>
               </div>
             </div>
             
@@ -389,11 +365,11 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
     },
   ];
 
-  const [activeTab, setActiveTab] = useState<"demos" | "prompts" | "playground">("demos");
+  const [activeTab, setActiveTab] = useState<"demos" | "upload">("demos");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [playgroundInput, setPlaygroundInput] = useState("");
-  const [playgroundOutput, setPlaygroundOutput] = useState("");
+  const [uploadedPromptName, setUploadedPromptName] = useState("");
+  const [uploadedPromptContent, setUploadedPromptContent] = useState("");
 
   const copyText = async (id: string, text: string) => {
     try {
@@ -409,22 +385,14 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
     }
   };
 
-  const runPlayground = () => {
-    const topic = playgroundInput.trim() || "（未填写主题）";
-    setPlaygroundOutput(
-      [
-        "【AI 实践演示（本地模拟，不调用线上模型）】",
-        `主题：${topic}`,
-        "",
-        "1) 核心观点：围绕“有用 + 好看”，用清晰结构把内容讲透。",
-        "2) 三个要点：",
-        "   - 先给结论，再给依据；信息密度要高但读起来轻松。",
-        "   - 用例驱动：给 1 个真实场景 + 1 个可执行步骤。",
-        "   - 体验一致：标题、段落、按钮与视觉节奏统一。",
-        "",
-        "3) 下一步建议：把你的目标用户、使用场景、期望输出补充完整，我可以把模板升级成可直接复用的工作流。",
-      ].join("\n")
-    );
+  const handlePromptUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadedPromptName(file.name);
+    const text = await file.text();
+    setUploadedPromptContent(text);
+    setToast("提示词文件已载入");
+    window.setTimeout(() => setToast(null), 1600);
   };
 
   return (
@@ -435,7 +403,7 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
         <div className="flex flex-col lg:flex-row justify-between items-start gap-10 mb-16">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white neo-border text-brand font-black text-sm mb-6">
-              AI 实践
+              AI 实践案例展示
             </div>
             <h2 className="text-6xl md:text-7xl font-black leading-none mb-6">
               把想法变成可复用的<span className="text-brand">工作流</span>
@@ -462,16 +430,10 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
             实践案例
           </button>
           <button
-            onClick={() => setActiveTab("prompts")}
-            className={`px-5 py-3 rounded-2xl font-black transition-all ${activeTab === "prompts" ? "bg-dark text-white" : "hover:bg-light"}`}
+            onClick={() => setActiveTab("upload")}
+            className={`px-5 py-3 rounded-2xl font-black transition-all ${activeTab === "upload" ? "bg-dark text-white" : "hover:bg-light"}`}
           >
-            提示词库
-          </button>
-          <button
-            onClick={() => setActiveTab("playground")}
-            className={`px-5 py-3 rounded-2xl font-black transition-all ${activeTab === "playground" ? "bg-dark text-white" : "hover:bg-light"}`}
-          >
-            Playground
+            上传提示词
           </button>
         </div>
 
@@ -494,63 +456,68 @@ const AIPractice = ({ onOpenContact, onOpenWorks }: { onOpenContact: () => void,
           </div>
         )}
 
-        {activeTab === "prompts" && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {promptTemplates.map((t) => (
-              <div key={t.id} className="neo-card rounded-3xl">
-                <div className="flex items-start justify-between gap-6 mb-4">
-                  <div>
-                    <p className="text-2xl font-black">{t.title}</p>
-                    <p className="text-gray-500 font-medium mt-2">可直接复制使用，把占位符替换成你的内容。</p>
-                  </div>
-                  <button
-                    onClick={() => copyText(t.id, t.content)}
-                    className={`px-5 py-3 rounded-full font-black transition-all ${copiedId === t.id ? "bg-dark text-white" : "bg-white neo-border hover:bg-light"}`}
-                  >
-                    {copiedId === t.id ? "已复制" : "复制"}
-                  </button>
-                </div>
-                <pre className="whitespace-pre-wrap text-sm bg-light neo-border rounded-2xl p-5 font-mono text-dark/80 leading-relaxed">
-                  {t.content}
-                </pre>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {activeTab === "playground" && (
+        {activeTab === "upload" && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             <div className="neo-card rounded-3xl">
-              <p className="text-2xl font-black mb-4">输入</p>
-              <p className="text-gray-500 font-medium mb-6">这里用于演示结构化输出的模板效果（本地模拟，不依赖 API）。</p>
+              <p className="text-2xl font-black mb-4">上传提示词</p>
+              <p className="text-gray-500 font-medium mb-6">支持上传 `.txt`、`.md`、`.json` 文件，也支持直接粘贴常用提示词模板。</p>
+              <label className="block w-full border-2 border-dashed border-brand/30 bg-white rounded-3xl p-8 text-center cursor-pointer hover:bg-brand/5 transition-all">
+                <p className="text-xl font-black mb-2">点击上传提示词文件</p>
+                <p className="text-gray-500">上传后会自动读取到下方编辑区</p>
+                <input
+                  type="file"
+                  accept=".txt,.md,.json,.csv"
+                  className="hidden"
+                  onChange={handlePromptUpload}
+                />
+              </label>
+              {uploadedPromptName && (
+                <div className="mt-5 px-4 py-3 bg-brand/10 rounded-2xl font-black text-brand">
+                  已载入：{uploadedPromptName}
+                </div>
+              )}
+              <p className="text-2xl font-black mt-8 mb-4">提示词编辑区</p>
               <textarea
-                value={playgroundInput}
-                onChange={(e) => setPlaygroundInput(e.target.value)}
+                value={uploadedPromptContent}
+                onChange={(e) => setUploadedPromptContent(e.target.value)}
                 className="w-full min-h-[220px] p-5 neo-border rounded-2xl outline-none focus:ring-2 ring-brand bg-white font-mono"
-                placeholder="输入一个主题，比如：如何把个人网站做得更专业？"
+                placeholder="把你的提示词粘贴到这里，或者先上传提示词文件。"
               />
               <div className="mt-6 flex gap-4">
-                <button onClick={runPlayground} className="neo-button bg-brand text-white flex items-center gap-3">
-                  <ArrowRight size={18} /> 生成示例
+                <button
+                  onClick={() => copyText("upload", uploadedPromptContent)}
+                  className={`neo-button bg-brand text-white flex items-center gap-3 ${!uploadedPromptContent ? 'opacity-50 pointer-events-none' : ''}`}
+                  disabled={!uploadedPromptContent}
+                >
+                  <FileText size={18} /> 复制提示词
                 </button>
-                <button onClick={() => setPlaygroundInput("")} className="neo-button bg-white">
+                <button onClick={() => { setUploadedPromptContent(""); setUploadedPromptName(""); }} className="neo-button bg-white">
                   清空
                 </button>
               </div>
             </div>
             <div className="neo-card rounded-3xl">
-              <p className="text-2xl font-black mb-4">输出</p>
-              <pre className="whitespace-pre-wrap text-sm bg-light neo-border rounded-2xl p-5 font-mono text-dark/80 leading-relaxed min-h-[320px]">
-                {playgroundOutput || "点击“生成示例”后，这里会出现结构化输出。"}
-              </pre>
-              <div className="mt-6">
-                <button
-                  onClick={() => copyText("out", playgroundOutput)}
-                  className={`neo-button bg-white flex items-center gap-3 ${!playgroundOutput ? 'opacity-50 pointer-events-none' : ''}`}
-                  disabled={!playgroundOutput}
-                >
-                  <FileText size={18} /> 复制输出
-                </button>
+              <p className="text-2xl font-black mb-4">内置提示词模板</p>
+              <div className="space-y-5">
+                {promptTemplates.map((t) => (
+                  <div key={t.id} className="bg-light neo-border rounded-2xl p-5">
+                    <div className="flex items-start justify-between gap-4 mb-3">
+                      <div>
+                        <p className="text-xl font-black">{t.title}</p>
+                        <p className="text-gray-500 text-sm mt-1">可直接复制后按需修改占位符。</p>
+                      </div>
+                      <button
+                        onClick={() => copyText(t.id, t.content)}
+                        className={`px-4 py-2 rounded-full font-black transition-all ${copiedId === t.id ? "bg-dark text-white" : "bg-white neo-border hover:bg-light"}`}
+                      >
+                        {copiedId === t.id ? "已复制" : "复制"}
+                      </button>
+                    </div>
+                    <pre className="whitespace-pre-wrap text-sm font-mono text-dark/80 leading-relaxed">
+                      {t.content}
+                    </pre>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -795,7 +762,7 @@ const Footer = ({ setActivePage }: { setActivePage: (page: string) => void }) =>
   const links = [
     { name: '首页', id: 'home' },
     { name: '关于我', id: 'about' },
-    { name: 'AI实践', id: 'ai' },
+    { name: 'AI实践案例展示', id: 'ai' },
     { name: '我的作品', id: 'works' },
     { name: '工作区', id: 'workspace' },
   ];
@@ -805,7 +772,7 @@ const Footer = ({ setActivePage }: { setActivePage: (page: string) => void }) =>
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
           <div className="space-y-4">
-            <p className="text-3xl font-display font-black tracking-tight">MUHAN</p>
+            <p className="text-3xl font-display font-black tracking-tight">MUHAN AI</p>
             <p className="text-gray-300/70 leading-relaxed">
               用 AI 与设计把“有用”和“好看”做成同一个答案。
             </p>
@@ -837,7 +804,7 @@ const Footer = ({ setActivePage }: { setActivePage: (page: string) => void }) =>
           </div>
         </div>
         <div className="mt-12 pt-10 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-300/60">
-          <p>© {new Date().getFullYear()} MUHAN. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} MUHAN AI. All rights reserved.</p>
           <p>muhan.org.cn</p>
         </div>
       </div>
@@ -886,7 +853,7 @@ export default function App() {
         <div className="space-y-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 p-8 bg-brand/5 rounded-3xl border border-brand/10">
             <div>
-              <h3 className="text-4xl font-black mb-2">MUHAN</h3>
+              <h3 className="text-4xl font-black mb-2">MUHAN AI</h3>
               <p className="text-lg text-brand font-bold">高级全栈工程师 & 交互设计师</p>
             </div>
             <button className="neo-button bg-white flex items-center gap-2">
